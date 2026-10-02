@@ -130,7 +130,8 @@
     "ORDER_FINAL": "Kjo porosi është mbyllur dhe nuk ndryshon më.",
     "INVALID_STATUS_TRANSITION": "Statusi nuk mund të kthehet pas.",
     "CYCLE_NOT_PUBLISHED": "Kjo javë nuk është e publikuar.",
-    "ORDER_NOT_FOUND": "Porosia nuk u gjet."
+    "ORDER_NOT_FOUND": "Porosia nuk u gjet.",
+    "ownerIsAdmin": "Ky email i përket një administratori të platformës."
   },
   "Farm": {
     "comingSoon": "Produktet e kësaj jave shfaqen këtu së shpejti."
@@ -529,5 +530,12 @@
     "openInApp": "Hape në panelin e fermës",
     "changes": "Për ndryshime telefononi fermën: {phone}",
     "footer": "Ky email u dërgua nga {farm} përmes platformës së porosive javore."
+  },
+  "ErrorPage": {
+    "title": "Diçka shkoi keq",
+    "body": "Na vjen keq, faqja nuk u ngarkua. Provoni përsëri pas pak.",
+    "retry": "Provo përsëri",
+    "home": "Kthehu në fillim",
+    "reference": "Referenca: {digest}"
   }
 }

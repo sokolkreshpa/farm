@@ -133,6 +133,7 @@ export async function setProductActive(
   active: boolean,
 ): Promise<void> {
   const { tenant } = await requireFarmer();
+  z.boolean().parse(active);
   const supabase = await createClient();
   await supabase
     .from("products")
@@ -391,16 +392,41 @@ export async function updateCustomer(
   const { tenant } = await requireFarmer();
   const parsed = customerUpdateSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fields: fieldErrors(parsed.error) };
+  const { customerId, farmerNotes, active } = parsed.data;
   const supabase = await createClient();
-  const { error } = await supabase
+  const { error, count } = await supabase
     .from("customers")
-    .update({
-      farmer_notes: parsed.data.farmerNotes,
-      active: parsed.data.active,
-    })
+    .update({ active }, { count: "exact" })
     .eq("tenant_id", tenant.id)
-    .eq("id", parsed.data.customerId);
+    .eq("id", customerId);
   if (error) return { error: dbErrorKey(error) };
+  if (!count) return { error: "FORBIDDEN" };
+
+  // Notes live in a members-only table (D-71).
+  // (Update-then-insert rather than upsert: only `notes` is updatable.)
+  if (farmerNotes) {
+    const updated = await supabase
+      .from("customer_notes")
+      .update({ notes: farmerNotes }, { count: "exact" })
+      .eq("tenant_id", tenant.id)
+      .eq("customer_id", customerId);
+    if (updated.error) return { error: dbErrorKey(updated.error) };
+    if (!updated.count) {
+      const inserted = await supabase.from("customer_notes").insert({
+        tenant_id: tenant.id,
+        customer_id: customerId,
+        notes: farmerNotes,
+      });
+      if (inserted.error) return { error: dbErrorKey(inserted.error) };
+    }
+  } else {
+    const removed = await supabase
+      .from("customer_notes")
+      .delete()
+      .eq("tenant_id", tenant.id)
+      .eq("customer_id", customerId);
+    if (removed.error) return { error: dbErrorKey(removed.error) };
+  }
   revalidatePath("/farm/customers", "layout");
   return { success: true };
 }

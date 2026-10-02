@@ -171,7 +171,7 @@ export default async function FarmPage({
                 {tenant.description}
               </p>
             )}
-            <dl className="mt-4 grid gap-3 text-sm">
+            <ul className="mt-4 grid gap-3 text-sm">
               {tenant.deliveryEnabled && tenant.deliveryInformation && (
                 <InfoRow
                   icon={<Truck className="size-4" aria-hidden />}
@@ -223,7 +223,7 @@ export default async function FarmPage({
                   </a>
                 </InfoRow>
               )}
-            </dl>
+            </ul>
           </section>
         </div>
       </main>
@@ -258,12 +258,12 @@ function InfoRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-3">
+    <li className="flex gap-3">
       <span className="mt-0.5 text-primary">{icon}</span>
       <div>
-        {title && <dt className="font-medium">{title}</dt>}
-        <dd className="text-muted-foreground">{children}</dd>
+        {title && <p className="font-medium">{title}</p>}
+        <p className="text-muted-foreground">{children}</p>
       </div>
-    </div>
+    </li>
   );
 }

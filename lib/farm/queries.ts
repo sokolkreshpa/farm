@@ -477,12 +477,17 @@ export type FarmCustomer = {
 
 export async function getCustomers(tenantId: string): Promise<FarmCustomer[]> {
   const supabase = await createClient();
-  const [customersRes, ordersRes] = await Promise.all([
+  const [customersRes, notesRes, ordersRes] = await Promise.all([
     supabase
       .from("customers")
       .select(
-        "id, active, farmer_notes, created_at, profiles ( first_name, last_name, phone, email )",
+        "id, active, created_at, profiles ( first_name, last_name, phone, email )",
       )
+      .eq("tenant_id", tenantId),
+    // Private to the farm (D-71): customers cannot read this table.
+    supabase
+      .from("customer_notes")
+      .select("customer_id, notes")
       .eq("tenant_id", tenantId),
     supabase
       .from("orders")
@@ -491,7 +496,9 @@ export async function getCustomers(tenantId: string): Promise<FarmCustomer[]> {
       .neq("status", "CANCELLED"),
   ]);
   if (customersRes.error) throw customersRes.error;
+  if (notesRes.error) throw notesRes.error;
   if (ordersRes.error) throw ordersRes.error;
+  const notes = new Map(notesRes.data.map((n) => [n.customer_id, n.notes]));
 
   const stats = new Map<
     string,
@@ -514,7 +521,7 @@ export async function getCustomers(tenantId: string): Promise<FarmCustomer[]> {
       phone: c.profiles!.phone,
       email: c.profiles!.email,
       active: c.active,
-      farmerNotes: c.farmer_notes,
+      farmerNotes: notes.get(c.id) ?? null,
       joinedAt: c.created_at,
       orderCount: stats.get(c.id)?.count ?? 0,
       totalSpent: stats.get(c.id)?.total ?? 0,

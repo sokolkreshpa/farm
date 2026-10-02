@@ -28,21 +28,14 @@ export async function createFarm(
 
   const admin = createAdminClient();
 
-  const { data: tenant, error: tenantError } = await admin
+  // Check the address first so we don't send an invite for a farm that
+  // can't be created.
+  const { data: taken } = await admin
     .from("tenants")
-    .insert({
-      name: f.name,
-      slug: f.slug,
-      phone: f.phone,
-      email: f.email ?? null,
-    })
     .select("id")
-    .single();
-  if (tenantError || !tenant) {
-    return tenantError?.code === "23505"
-      ? { fields: { slug: "slugTaken" } }
-      : { error: "generic" };
-  }
+    .eq("slug", f.slug)
+    .maybeSingle();
+  if (taken) return { fields: { slug: "slugTaken" } };
 
   // Invite a new user, or reuse an existing account with that e-mail.
   const locale = await getLocale();
@@ -69,19 +62,23 @@ export async function createFarm(
       .maybeSingle();
     profileId = existing?.id ?? null;
   }
+  if (!profileId) return { error: "inviteFailed" };
 
-  if (!profileId) {
-    await admin.from("tenants").delete().eq("id", tenant.id); // compensate
-    return { error: "inviteFailed" };
+  // Tenant + FARMER role + membership in one transaction; refuses to turn a
+  // platform admin into a farmer (D-74).
+  const { error } = await admin.rpc("create_farm_with_owner", {
+    p_name: f.name,
+    p_slug: f.slug,
+    p_phone: f.phone ?? "",
+    p_email: f.email ?? "",
+    p_owner_id: profileId,
+  });
+  if (error) {
+    if (error.code === "23505") return { fields: { slug: "slugTaken" } };
+    if (error.message === "OWNER_IS_ADMIN")
+      return { fields: { farmerEmail: "ownerIsAdmin" } };
+    return { error: "generic" };
   }
-
-  const [{ error: roleError }, { error: memberError }] = await Promise.all([
-    admin.from("profiles").update({ role: "FARMER" }).eq("id", profileId),
-    admin
-      .from("tenant_members")
-      .insert({ tenant_id: tenant.id, profile_id: profileId }),
-  ]);
-  if (roleError || memberError) return { error: "generic" };
 
   revalidatePath("/admin");
   return redirect({ href: "/admin", locale });
@@ -92,6 +89,7 @@ export async function setFarmActive(
   active: boolean,
 ): Promise<void> {
   await requirePlatformAdmin();
+  z.boolean().parse(active);
   const admin = createAdminClient();
   await admin
     .from("tenants")

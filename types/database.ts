@@ -67,15 +67,34 @@ isOneToOne: false
       referencedColumns: ["tenant_id","id"]
     }
                   ]
-                },"customers": {
+                },"customer_notes": {
                   Row: {
-                    "active": boolean,"created_at": string,"farmer_notes": string | null,"id": string,"profile_id": string,"tenant_id": string,"updated_at": string
+                    "customer_id": string,"notes": string,"tenant_id": string,"updated_at": string
                   }
                   Insert: {
-                    "active"?: boolean,"created_at"?: string,"farmer_notes"?: string | null,"id"?: string,"profile_id": string,"tenant_id": string,"updated_at"?: string
+                    "customer_id": string,"notes": string,"tenant_id": string,"updated_at"?: string
                   }
                   Update: {
-                    "active"?: boolean,"created_at"?: string,"farmer_notes"?: string | null,"id"?: string,"profile_id"?: string,"tenant_id"?: string,"updated_at"?: string
+                    "customer_id"?: string,"notes"?: string,"tenant_id"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "customer_notes_tenant_id_customer_id_fkey"
+      columns: ["tenant_id","customer_id"]
+isOneToOne: false
+      referencedRelation: "customers"
+      referencedColumns: ["tenant_id","id"]
+    }
+                  ]
+                },"customers": {
+                  Row: {
+                    "active": boolean,"created_at": string,"id": string,"profile_id": string,"tenant_id": string,"updated_at": string
+                  }
+                  Insert: {
+                    "active"?: boolean,"created_at"?: string,"id"?: string,"profile_id": string,"tenant_id": string,"updated_at"?: string
+                  }
+                  Update: {
+                    "active"?: boolean,"created_at"?: string,"id"?: string,"profile_id"?: string,"tenant_id"?: string,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -346,6 +365,9 @@ isOneToOne: false
                            },
 "copy_cycle":
 { Args: { "p_source_cycle_id": string,"p_week_start": string }; Returns: string
+                           },
+"create_farm_with_owner":
+{ Args: { "p_email": string,"p_name": string,"p_owner_id": string,"p_phone": string,"p_slug": string }; Returns: string
                            },
 "place_order":
 { Args: { "p_address_id"?: string,"p_cycle_id": string,"p_delivery_method": Database["public"]['Enums']["delivery_method"],"p_delivery_notes"?: string,"p_idempotency_key": string,"p_items": Json,"p_notes"?: string,"p_phone": string,"p_tenant_slug": string }; Returns: {

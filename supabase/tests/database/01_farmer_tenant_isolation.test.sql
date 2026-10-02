@@ -58,7 +58,7 @@ select is((select count(*)::int from public.tenant_members where tenant_id = pg_
 -- ---------------------------------------------------------------- writes
 update public.products set name = 'Hacked' where tenant_id = pg_temp.farm_b();
 update public.tenants set name = 'Hacked' where id = pg_temp.farm_b();
-update public.customers set farmer_notes = 'Hacked' where tenant_id = pg_temp.farm_b();
+update public.customers set active = false where tenant_id = pg_temp.farm_b();
 delete from public.availability_items where tenant_id = pg_temp.farm_b();
 
 select throws_ok(
@@ -119,7 +119,7 @@ select is((select count(*)::int from public.products where name = 'Hacked'), 0,
   'farm B products unchanged');
 select is((select count(*)::int from public.tenants where name = 'Hacked'), 0,
   'farm B tenant unchanged');
-select is((select count(*)::int from public.customers where farmer_notes = 'Hacked'), 0,
+select is((select count(*)::int from public.customers where tenant_id = pg_temp.farm_b() and not active), 0,
   'farm B customers unchanged');
 select ok((select count(*) from public.availability_items where tenant_id = pg_temp.farm_b()) >= 3,
   'farm B availability items not deleted');

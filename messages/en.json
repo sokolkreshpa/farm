@@ -130,7 +130,8 @@
     "ORDER_FINAL": "This order is closed and can't change anymore.",
     "INVALID_STATUS_TRANSITION": "The status can't go backwards.",
     "CYCLE_NOT_PUBLISHED": "This week is not published.",
-    "ORDER_NOT_FOUND": "Order not found."
+    "ORDER_NOT_FOUND": "Order not found.",
+    "ownerIsAdmin": "This email belongs to a platform administrator."
   },
   "Farm": {
     "comingSoon": "This week's products will appear here soon."
@@ -529,5 +530,12 @@
     "openInApp": "Open in the farm dashboard",
     "changes": "For changes, call the farm: {phone}",
     "footer": "This email was sent by {farm} through the weekly ordering platform."
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "body": "Sorry, this page couldn't be loaded. Please try again in a moment.",
+    "retry": "Try again",
+    "home": "Back to home",
+    "reference": "Reference: {digest}"
   }
 }
