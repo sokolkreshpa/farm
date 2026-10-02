@@ -56,3 +56,15 @@ export function formatMoney(
 export function formatQuantity(quantity: number, locale: string): string {
   return formatNumber(quantity, 0, 3, locale);
 }
+
+/** Value for an editable number input: no grouping, locale decimal mark. */
+export function toDecimalInput(value: number | null, locale: string): string {
+  if (value === null) return "";
+  const text = String(Number(value.toFixed(3)));
+  return localeFormat(locale).decimal === "," ? text.replace(".", ",") : text;
+}
+
+/** Currency label alone ("Lekë" / "ALL"), e.g. for input suffixes. */
+export function currencyLabel(currency: string, locale: string): string {
+  return CURRENCY_LABELS[currency]?.[locale.split("-")[0]] ?? currency;
+}

@@ -8,6 +8,11 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   : null;
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Product photos (max 4 MB) are uploaded through a Server Action. Vercel
+    // functions accept at most 4.5 MB request bodies.
+    serverActions: { bodySizeLimit: "4.5mb" },
+  },
   images: {
     // Product photos come from Supabase Storage (public bucket).
     remotePatterns: supabaseUrl
