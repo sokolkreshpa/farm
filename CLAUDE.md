@@ -9,6 +9,7 @@ Multi-tenant from day one; first deployment serves one farmer. Not a marketplace
 - `docs/spec.md` — full product spec (what to build). Read the relevant section before starting a feature.
 - `docs/decisions.md` — decisions that **override** the spec. Check it before designing anything; append new decisions there.
 - `docs/testing.md` — test strategy, how to run, spec §29 coverage map.
+- `docs/deployment.md` — Vercel/Supabase/Resend setup, go-live checklist, operations.
 - `docs/architecture.md`, `docs/database.md`, `docs/user-flows.md` — design docs (created in Phase 1; keep in sync with the code).
 
 ## Stack
@@ -107,14 +108,14 @@ tests/unit/  tests/e2e/
 
 ## Phase tracker
 
-| Phase                                                   | Status                     |
-| ------------------------------------------------------- | -------------------------- |
-| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done                       |
-| 1 — Architecture docs (review gate)                     | done (approved 2026-10-02) |
-| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                       |
-| 3 — Auth & role-based access                            | done                       |
-| 4 — Customer MVP                                        | done                       |
-| 5 — Farmer MVP (+ minimal admin)                        | done                       |
-| 6 — Notifications                                       | done                       |
-| 7 — Testing (unit + e2e)                                | done                       |
-| 8 — Deployment (Vercel + Supabase prod)                 | not started                |
+| Phase                                                   | Status                                               |
+| ------------------------------------------------------- | ---------------------------------------------------- |
+| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done                                                 |
+| 1 — Architecture docs (review gate)                     | done (approved 2026-10-02)                           |
+| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                                                 |
+| 3 — Auth & role-based access                            | done                                                 |
+| 4 — Customer MVP                                        | done                                                 |
+| 5 — Farmer MVP (+ minimal admin)                        | done                                                 |
+| 6 — Notifications                                       | done                                                 |
+| 7 — Testing (unit + e2e)                                | done                                                 |
+| 8 — Deployment (Vercel + Supabase prod)                 | prepared — waiting for accounts (docs/deployment.md) |

@@ -114,3 +114,10 @@ An independent review of migrations, server actions and routes found no critical
 - **D-76** — `place_order()` row locks are limited to the requested farm and week (no locking of other farms' stock).
 - **D-77** — Storage SELECT policy for members' own folder (needed to delete replaced photos); security headers (nosniff, frame DENY, referrer, permissions, HSTS, CSP `frame-ancestors/object-src/base-uri/form-action`); `X-Powered-By` removed. A full script-src CSP with nonces is a follow-up.
 - **D-78** — Friendly localized error page (`app/[locale]/error.tsx`) shows no internals, only the error digest.
+
+## Deployment decisions (Phase 8, 2026-10-03)
+
+- **D-79** — Two hosted Supabase projects in Frankfurt: **staging** (Vercel preview deployments) and **production** (Vercel production). Migrations are applied by `.github/workflows/migrate.yml` (staging → production behind a required-reviewer environment); the seed is never pushed to production.
+- **D-80** — Auth URL settings, SMTP (Resend) and the bilingual e-mail templates are configured in the Supabase dashboard (documented in `docs/deployment.md`); `supabase config push` is not used because `config.toml` holds the local `localhost` URLs.
+- **D-81** — The first platform admin is created by signing up normally and running `supabase/snippets/make-platform-admin.sql`; GDPR deletion requests are processed with `supabase/snippets/anonymize-customer.sql` (orders keep amounts, lose personal data; logins disabled; people without orders deleted).
+- **D-82** — `npm run smoke -- <url> [slug]` is the post-deployment check (health, farm page via Supabase, locales, security headers, auth redirect, cron protection).
