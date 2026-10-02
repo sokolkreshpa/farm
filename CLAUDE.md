@@ -86,7 +86,8 @@ tests/unit/  tests/e2e/
 - Business logic in `lib/`, not in components. Components stay small.
 - TypeScript strict; no `any` without a comment explaining why. Use generated DB types.
 - No hard-coded user-facing strings — use `next-intl` messages (both `sq` and `en`).
-- No hard-coded units or currencies in the frontend.
+- No hard-coded units or currencies in the frontend. Format money/quantities only with `lib/format.ts` (never `Intl` currency — ICU differs between server and browser).
+- Cart/checkout rules live in pure functions (`lib/cart/math.ts`, `lib/orders/repeat.ts`) that mirror `place_order()`; keep them in sync and unit-tested.
 - Don't add dependencies without a reason; don't build anything in spec §32 ("What NOT to build").
 - Fix errors; don't suppress them (`@ts-ignore`, `eslint-disable`) without justification.
 
@@ -109,7 +110,7 @@ tests/unit/  tests/e2e/
 | 1 — Architecture docs (review gate)                     | done (approved 2026-10-02) |
 | 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                       |
 | 3 — Auth & role-based access                            | done                       |
-| 4 — Customer MVP                                        | not started                |
+| 4 — Customer MVP                                        | done                       |
 | 5 — Farmer MVP (+ minimal admin)                        | not started                |
 | 6 — Notifications                                       | not started                |
 | 7 — Testing (unit + e2e)                                | not started                |

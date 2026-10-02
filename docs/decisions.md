@@ -74,3 +74,13 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-50** — Sign-up answers identically whether or not the e-mail already exists (no account enumeration); password-reset always reports success.
 - **D-51** — Server-action form errors are translation keys (`ErrorKey`); unknown codes fall back to `generic`. Actions return non-secret submitted values so forms refill after React 19's automatic form reset.
 - **D-52** — The privacy notice (`/privacy`) is a **draft pending legal review**. It promises account deletion from "My account" — to be built in Phase 4.
+
+## Customer MVP decisions (Phase 4, 2026-10-03)
+
+- **D-53** — Money and quantities use a **deterministic formatter** (`lib/format.ts`), not `Intl` currency formatting: ICU data differs between Node ("250 Lekë") and Chromium ("ALL 250"), which caused hydration mismatches. Dates are formatted only in Server Components, with `hourCycle: "h23"` (Albania uses the 24-hour clock).
+- **D-54** — The cart is reconciled with the current offer **during render** (`useOfferCart`): items no longer offered are dropped and quantities clamped; the customer sees a notice until they change the cart.
+- **D-55** — Data-access queries **throw** on database errors (error boundary) instead of returning empty results; an embed mistake had silently shown "no orders".
+- **D-56** — Order → farm data is embedded through `weekly_cycles` (orders only have composite FKs, so PostgREST cannot embed `tenants` directly).
+- **D-57** — Checkout keeps its idempotency key in `sessionStorage` per farm + week until the order succeeds, so retries and reloads never create duplicates.
+- **D-58** — Anonymous visitors who press "Continue to order" go to sign-up (with `farm` and `next`), then return to checkout with the cart intact.
+- **D-59** — Product placeholders (no photo yet) are coloured tiles with the product's initial; photos are uploaded by the farmer in Phase 5.

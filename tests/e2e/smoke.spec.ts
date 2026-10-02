@@ -4,8 +4,9 @@ test("home opens the default farm in Albanian", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveURL(/\/f\/ferma-kodra$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "sq");
+  await expect(page.getByRole("banner")).toContainText("Ferma Kodra e Gjelbër");
   await expect(
-    page.getByRole("heading", { name: "Ferma Kodra e Gjelbër" }),
+    page.getByRole("heading", { name: "Produktet e freskëta të kësaj jave" }),
   ).toBeVisible();
 });
 
