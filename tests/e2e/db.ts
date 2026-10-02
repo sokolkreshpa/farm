@@ -41,3 +41,42 @@ export async function orderIdByNumber(
   );
   return order.id;
 }
+
+export async function adminPatch(
+  path: string,
+  body: Record<string, unknown>,
+): Promise<void> {
+  const url = env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = env.SUPABASE_SECRET_KEY;
+  const res = await fetch(`${url}/rest/v1/${path}`, {
+    method: "PATCH",
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+}
+
+/** Current-week availability item of farm A for a product name. */
+export async function currentItem(productName: string): Promise<{
+  id: string;
+  available_quantity: number;
+  ordered_quantity: number;
+}> {
+  const [cycle] = await adminSelect<{ id: string }[]>(
+    "weekly_cycles?status=eq.PUBLISHED&tenant_id=eq.10000000-0000-4000-a000-00000000000a&select=id",
+  );
+  const [product] = await adminSelect<{ id: string }[]>(
+    `products?tenant_id=eq.10000000-0000-4000-a000-00000000000a&name=eq.${encodeURIComponent(productName)}&select=id`,
+  );
+  const [item] = await adminSelect<
+    { id: string; available_quantity: number; ordered_quantity: number }[]
+  >(
+    `availability_items?cycle_id=eq.${cycle.id}&product_id=eq.${product.id}&select=id,available_quantity,ordered_quantity`,
+  );
+  return item;
+}

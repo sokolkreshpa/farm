@@ -101,3 +101,16 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-68** — Outbox processing: `claim_notifications()` leases rows with `FOR UPDATE SKIP LOCKED` (attempts +1, next attempt +5 min) so `after()` and the cron never double-send. Failures retry with exponential backoff (1, 2, 4, 8 min …, max 6 h) and are marked `FAILED` after 5 attempts.
 - **D-69** — Sending happens via `after()` right after `placeOrder` / `setOrderStatus` / bulk updates; `GET /api/cron/notifications` (Bearer `CRON_SECRET`, constant-time compare) retries leftovers. `vercel.json` schedules it **daily**, the most frequent schedule allowed on Vercel Hobby; on Pro change it to `*/10 * * * *`.
 - **D-70** — Templates are pure functions using `createTranslator` with the recipient's `preferred_locale`; all user-provided text is HTML-escaped; every e-mail has a plain-text part. Status e-mails: CONFIRMED, READY (worded for pick-up vs delivery), DELIVERED, CANCELLED (with the farmer's reason).
+
+## Security review decisions (Phase 7, 2026-10-03)
+
+An independent review of migrations, server actions and routes found no critical/high issues. Fixed in `20261003000700_security_hardening.sql` and code:
+
+- **D-71** (medium) — Farmer notes moved from `customers.farmer_notes` (readable by the customer via their own row) to a members-only `customer_notes` table.
+- **D-72** — `tenants.next_order_number` (order volume) is no longer selectable by `anon`/`authenticated` (column grants). Remaining stock (`available - ordered`) stays public by design — the shop shows "only X left".
+- **D-73** — A sign-up is linked to a farm as customer only once the e-mail is confirmed (insert or `email_confirmed_at` update), so fake sign-ups don't appear in the farmer's customer list.
+- **D-74** — Farm creation is one transaction (`create_farm_with_owner`, service role only) and refuses to turn a platform admin into a farmer; the slug is checked before the invite is sent.
+- **D-75** — `products.image_path` / `tenants.logo_path` must match `{tenant_id}/{uuid}.(jpg|png|webp)` (CHECK constraints).
+- **D-76** — `place_order()` row locks are limited to the requested farm and week (no locking of other farms' stock).
+- **D-77** — Storage SELECT policy for members' own folder (needed to delete replaced photos); security headers (nosniff, frame DENY, referrer, permissions, HSTS, CSP `frame-ancestors/object-src/base-uri/form-action`); `X-Powered-By` removed. A full script-src CSP with nonces is a follow-up.
+- **D-78** — Friendly localized error page (`app/[locale]/error.tsx`) shows no internals, only the error digest.

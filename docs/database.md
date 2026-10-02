@@ -129,10 +129,13 @@ create type notification_status as enum ('PENDING', 'SENT', 'FAILED');
 | id                     | uuid    | PK                                                                             |
 | tenant_id              | uuid    | FK → tenants, not null                                                         |
 | profile_id             | uuid    | FK → profiles on delete cascade, not null                                      |
-| farmer_notes           | text    | ≤ 2000, private to the farm ("Leave at the gate")                              |
 | active                 | boolean | not null default true. Farmer can block ordering.                              |
 | created_at, updated_at |         |                                                                                |
 |                        |         | **unique (tenant_id, profile_id)**, unique (tenant_id, id); index (profile_id) |
+
+### 4.4b `customer_notes` — farmer's private notes (D-71)
+
+`tenant_id, customer_id (PK, FK composite → customers, cascade), notes ≤ 2000, updated_at`. Members of the tenant only; the customer cannot read it. (Replaces the former `customers.farmer_notes` column.)
 
 ### 4.5 `addresses` — customer's address book (profile-owned, private)
 
@@ -327,7 +330,7 @@ All policies target the roles `anon` and/or `authenticated` and use `(select aut
 | tenants              | anon+auth: `active`; member; admin                                        | — (service role)             | member (column grant excludes `active`, `slug`, `next_order_number`) | —                                      |
 | profiles             | self; farmer of a tenant where the profile is a customer; admin           | — (trigger)                  | self (columns: names, phone, preferred_locale)                       | —                                      |
 | tenant_members       | own rows; admin                                                           | —                            | —                                                                    | —                                      |
-| customers            | own (`profile_id = uid`); member; admin                                   | — (trigger / `place_order`)  | member (columns: `farmer_notes`, `active`)                           | —                                      |
+| customers            | own (`profile_id = uid`); member; admin                                   | — (trigger / `place_order`)  | member (column: `active`)                                            | —                                      |
 | addresses            | self                                                                      | self                         | self                                                                 | self                                   |
 | units                | anon+auth: all                                                            | —                            | —                                                                    | —                                      |
 | products             | anon+auth: `active` and tenant active; member (incl. archived); admin     | member                       | member                                                               | member, if never offered (FK restrict) |
