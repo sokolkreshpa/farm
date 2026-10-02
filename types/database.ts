@@ -319,7 +319,29 @@ isOneToOne: false
                 }
           }
           Functions: {
-            "close_cycle":
+            "claim_notifications":
+{ Args: { "p_limit"?: number }; Returns: {
+              "attempts": number,
+"channel": string,
+"created_at": string,
+"event": string,
+"id": string,
+"last_error": string | null,
+"locale": string,
+"next_attempt_at": string,
+"payload": NonNullable<Json>,
+"recipient": string,
+"sent_at": string | null,
+"status": Database["public"]['Enums']["notification_status"],
+"tenant_id": string
+            }[]
+                          SetofOptions: {
+        from: "*"
+        to: "notifications"
+        isOneToOne: false
+        isSetofReturn: true
+      } },
+"close_cycle":
 { Args: { "p_cycle_id": string }; Returns: undefined
                            },
 "copy_cycle":

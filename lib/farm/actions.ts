@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import { redirect } from "@/i18n/navigation";
@@ -8,6 +9,7 @@ import { requireFarmer } from "@/lib/dal/session";
 import { dbErrorKey } from "@/lib/db/errors";
 import { defaultDeadline, isMonday, zonedToUtc } from "@/lib/farm/weeks";
 import type { ErrorKey } from "@/lib/i18n/errors";
+import { dispatchNotifications } from "@/lib/notifications/dispatch";
 import { PRODUCT_IMAGES_BUCKET } from "@/lib/storage";
 import { createClient } from "@/lib/supabase/server";
 import { fieldErrors, type FieldErrors } from "@/lib/validation/auth";
@@ -352,6 +354,7 @@ export async function setOrderStatus(
     p_note: note?.slice(0, 500),
   });
   if (error) return { ok: false, error: dbErrorKey(error) };
+  after(() => dispatchNotifications());
   revalidatePath("/farm", "layout");
   return { ok: true };
 }
@@ -374,6 +377,7 @@ export async function bulkSetOrderStatus(
     if (error) failed += 1;
     else updated += 1;
   }
+  if (updated) after(() => dispatchNotifications(100));
   revalidatePath("/farm", "layout");
   return { updated, failed };
 }

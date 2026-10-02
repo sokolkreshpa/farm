@@ -8,6 +8,8 @@ const serverSchema = z.object({
   CRON_SECRET: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
   EMAIL_FROM: z.string().optional(),
+  /** Local development only: Mailpit base URL (http://127.0.0.1:54324). */
+  MAILPIT_URL: z.url().optional(),
 });
 
 let cached: z.infer<typeof serverSchema> | undefined;
@@ -20,6 +22,7 @@ export function serverEnv() {
     CRON_SECRET: process.env.CRON_SECRET || undefined,
     RESEND_API_KEY: process.env.RESEND_API_KEY || undefined,
     EMAIL_FROM: process.env.EMAIL_FROM || undefined,
+    MAILPIT_URL: process.env.MAILPIT_URL || undefined,
   });
   return cached;
 }

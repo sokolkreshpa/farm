@@ -499,5 +499,35 @@
     "noDeletionRequests": "No requests.",
     "requestedOn": "Requested on {date}",
     "back": "Back"
+  },
+  "Emails": {
+    "placedCustomer": {
+      "subject": "Order #{number} at {farm} has been sent",
+      "intro": "Thank you for your order! {farm} will confirm it shortly."
+    },
+    "placedFarmer": {
+      "subject": "New order #{number} – {customer} – {total}",
+      "intro": "You have a new order from {customer}."
+    },
+    "status": {
+      "subject": "Order #{number}: {status}",
+      "CONFIRMED": "{farm} has confirmed your order #{number}.",
+      "READY_PICKUP": "Your order #{number} is ready for pick-up.",
+      "READY_DELIVERY": "Your order #{number} is ready and will be delivered soon.",
+      "DELIVERED": "Your order #{number} has been delivered. Thank you for buying from {farm}!",
+      "CANCELLED": "Your order #{number} has been cancelled.",
+      "reason": "Reason: {reason}"
+    },
+    "customer": "Customer",
+    "week": "Week",
+    "deliveryNotes": "Delivery notes",
+    "notes": "Note",
+    "deliveryFee": "Delivery",
+    "total": "Total",
+    "payment": "Payment is in cash when you receive your order.",
+    "viewOrder": "View order",
+    "openInApp": "Open in the farm dashboard",
+    "changes": "For changes, call the farm: {phone}",
+    "footer": "This email was sent by {farm} through the weekly ordering platform."
   }
 }

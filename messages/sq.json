@@ -499,5 +499,35 @@
     "noDeletionRequests": "Nuk ka kërkesa.",
     "requestedOn": "Kërkuar më {date}",
     "back": "Kthehu"
+  },
+  "Emails": {
+    "placedCustomer": {
+      "subject": "Porosia #{number} te {farm} u dërgua",
+      "intro": "Faleminderit për porosinë! {farm} do ta konfirmojë së shpejti."
+    },
+    "placedFarmer": {
+      "subject": "Porosi e re #{number} – {customer} – {total}",
+      "intro": "Keni një porosi të re nga {customer}."
+    },
+    "status": {
+      "subject": "Porosia #{number}: {status}",
+      "CONFIRMED": "{farm} e konfirmoi porosinë tuaj #{number}.",
+      "READY_PICKUP": "Porosia juaj #{number} është gati për t'u marrë.",
+      "READY_DELIVERY": "Porosia juaj #{number} është gati dhe do t'ju dërgohet së shpejti.",
+      "DELIVERED": "Porosia juaj #{number} u dorëzua. Faleminderit që blini nga {farm}!",
+      "CANCELLED": "Porosia juaj #{number} u anulua.",
+      "reason": "Arsyeja: {reason}"
+    },
+    "customer": "Klienti",
+    "week": "Java",
+    "deliveryNotes": "Shënime për dërgesën",
+    "notes": "Shënim",
+    "deliveryFee": "Dërgesa",
+    "total": "Totali",
+    "payment": "Pagesa bëhet me para në dorë në momentin e marrjes.",
+    "viewOrder": "Shiko porosinë",
+    "openInApp": "Hape në panelin e fermës",
+    "changes": "Për ndryshime telefononi fermën: {phone}",
+    "footer": "Ky email u dërgua nga {farm} përmes platformës së porosive javore."
   }
 }

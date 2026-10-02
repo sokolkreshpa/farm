@@ -1,6 +1,8 @@
 "use server";
 
+import { after } from "next/server";
 import { getViewer } from "@/lib/dal/session";
+import { dispatchNotifications } from "@/lib/notifications/dispatch";
 import { toErrorKey } from "@/lib/i18n/errors";
 import {
   parsePlaceOrderError,
@@ -102,6 +104,9 @@ export async function placeOrder(
       .update({ phone: order.phone })
       .eq("id", viewer.id);
   }
+
+  // E-mails go out after the response; failures are retried by the cron.
+  after(() => dispatchNotifications());
 
   return { ok: true, orderId: data.order_id, orderNumber: data.order_number };
 }
