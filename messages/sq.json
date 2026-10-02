@@ -1,0 +1,20 @@
+{
+  "Metadata": {
+    "title": "Porosi javore nga ferma",
+    "description": "Produkte të freskëta lokale, të porositura çdo javë direkt nga fermeri."
+  },
+  "Home": {
+    "headline": "Produktet e freskëta të kësaj jave",
+    "subheadline": "Porosit direkt nga fermeri yt lokal. Shpejt dhe thjesht.",
+    "comingSoon": "Së shpejti"
+  },
+  "LocaleSwitcher": {
+    "label": "Gjuha",
+    "sq": "Shqip",
+    "en": "English"
+  },
+  "NotFound": {
+    "title": "Faqja nuk u gjet",
+    "back": "Kthehu në fillim"
+  }
+}

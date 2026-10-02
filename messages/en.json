@@ -1,0 +1,20 @@
+{
+  "Metadata": {
+    "title": "Weekly farm orders",
+    "description": "Fresh local produce, ordered weekly straight from the farmer."
+  },
+  "Home": {
+    "headline": "This week's fresh products",
+    "subheadline": "Order directly from your local farmer. Quick and simple.",
+    "comingSoon": "Coming soon"
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "sq": "Shqip",
+    "en": "English"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}
