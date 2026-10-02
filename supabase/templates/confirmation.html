@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <body
+    style="
+      margin: 0;
+      padding: 24px;
+      background: #faf7f0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #3a3127;
+    "
+  >
+    <table
+      role="presentation"
+      width="100%"
+      style="
+        max-width: 520px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 32px;
+      "
+    >
+      <tr>
+        <td>
+          {{ if eq .Data.preferred_locale "en" }}
+          <h1 style="font-size: 22px; margin: 0 0 16px">Welcome!</h1>
+          <p style="font-size: 16px; line-height: 1.5">
+            Confirm your email address to finish signing up and continue with
+            your order.
+          </p>
+          <p style="margin: 28px 0">
+            <a
+              href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=email&next={{ .RedirectTo }}"
+              style="
+                background: #3f7a4a;
+                color: #ffffff;
+                padding: 14px 22px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: bold;
+              "
+              >Confirm email</a
+            >
+          </p>
+          <p style="font-size: 13px; color: #7a7066">
+            If you didn't sign up, you can ignore this message.
+          </p>
+          {{ else }}
+          <h1 style="font-size: 22px; margin: 0 0 16px">Mirë se erdhe!</h1>
+          <p style="font-size: 16px; line-height: 1.5">
+            Konfirmo adresën tënde të email-it për të përfunduar regjistrimin
+            dhe për të vazhduar me porosinë.
+          </p>
+          <p style="margin: 28px 0">
+            <a
+              href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=email&next={{ .RedirectTo }}"
+              style="
+                background: #3f7a4a;
+                color: #ffffff;
+                padding: 14px 22px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: bold;
+              "
+              >Konfirmo email-in</a
+            >
+          </p>
+          <p style="font-size: 13px; color: #7a7066">
+            Nëse nuk je regjistruar ti, injoroje këtë mesazh.
+          </p>
+          {{ end }}
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
