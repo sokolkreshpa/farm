@@ -94,3 +94,10 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-64** — Product photos ≤ 4 MB are uploaded through a Server Action (`bodySizeLimit: 4.5mb`, Vercel's request limit) into `product-images/{tenant_id}/…`; storage RLS enforces the folder.
 - **D-65** — Platform admin creates a farm with the secret key: insert tenant → invite farmer (or reuse an existing account) → role FARMER + membership; the tenant insert is rolled back if the invite fails.
 - **D-66** — E2E tests expect a freshly seeded DB (`npm run test:e2e:fresh`); state-changing farmer tests run on farm B, desktop project only, serially.
+
+## Notification decisions (Phase 6, 2026-10-03)
+
+- **D-67** — `NotificationChannel` abstraction (`lib/notifications`) with `ResendEmailChannel` (production, plain HTTP — no SDK), `MailpitChannel` (local, Mailpit HTTP send API) and `ConsoleChannel` (fallback). Selected by env: `RESEND_API_KEY` → Resend, else `MAILPIT_URL` → Mailpit, else console.
+- **D-68** — Outbox processing: `claim_notifications()` leases rows with `FOR UPDATE SKIP LOCKED` (attempts +1, next attempt +5 min) so `after()` and the cron never double-send. Failures retry with exponential backoff (1, 2, 4, 8 min …, max 6 h) and are marked `FAILED` after 5 attempts.
+- **D-69** — Sending happens via `after()` right after `placeOrder` / `setOrderStatus` / bulk updates; `GET /api/cron/notifications` (Bearer `CRON_SECRET`, constant-time compare) retries leftovers. `vercel.json` schedules it **daily**, the most frequent schedule allowed on Vercel Hobby; on Pro change it to `*/10 * * * *`.
+- **D-70** — Templates are pure functions using `createTranslator` with the recipient's `preferred_locale`; all user-provided text is HTML-escaped; every e-mail has a plain-text part. Status e-mails: CONFIRMED, READY (worded for pick-up vs delivery), DELIVERED, CANCELLED (with the farmer's reason).

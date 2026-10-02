@@ -52,6 +52,7 @@ Logins (password `Password123`): `admin@example.com`, `farmer.a@example.com`, `f
 - Server Components / Actions get identity from `lib/dal/session.ts`: `getViewer()`, `requireViewer(next)`, `requireFarmer()` (returns `{ viewer, tenant }`), `requirePlatformAdmin()`. **Every** farmer/admin page and server action calls the matching `require*()` itself — layouts are not enough.
 - `lib/supabase/server.ts` = user client (RLS). `lib/supabase/admin.ts` = secret key, bypasses RLS: only after `requirePlatformAdmin()` or in the notification sender.
 - Redirect targets from input go through `safeNextPath()` / `safeRedirectTarget()`.
+- Notifications: DB functions insert outbox rows; actions call `after(() => dispatchNotifications())`. Never send e-mail inline in a request or let a send failure fail a business action.
 
 ## Layout
 
@@ -113,6 +114,6 @@ tests/unit/  tests/e2e/
 | 3 — Auth & role-based access                            | done                       |
 | 4 — Customer MVP                                        | done                       |
 | 5 — Farmer MVP (+ minimal admin)                        | done                       |
-| 6 — Notifications                                       | not started                |
+| 6 — Notifications                                       | done                       |
 | 7 — Testing (unit + e2e)                                | not started                |
 | 8 — Deployment (Vercel + Supabase prod)                 | not started                |

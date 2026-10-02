@@ -40,3 +40,22 @@ export async function latestEmailLink(to: string): Promise<string> {
   }
   throw new Error(`No e-mail with a link arrived for ${to}`);
 }
+
+type MailpitSummary = { ID: string; Subject: string };
+
+/** Waits until an e-mail to `to` whose subject contains `subject` arrives. */
+export async function waitForEmail(
+  to: string,
+  subject: string,
+): Promise<MailpitSummary> {
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const res = await fetch(
+      `${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(`to:${to}`)}&limit=50`,
+    );
+    const { messages } = (await res.json()) as { messages: MailpitSummary[] };
+    const found = messages?.find((m) => m.Subject.includes(subject));
+    if (found) return found;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error(`No e-mail "${subject}" arrived for ${to}`);
+}
