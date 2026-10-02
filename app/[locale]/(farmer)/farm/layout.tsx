@@ -1,3 +1,4 @@
+import { FarmNav } from "@/components/farmer/farm-nav";
 import { SiteHeader } from "@/components/site-header";
 import { requireFarmer } from "@/lib/dal/session";
 
@@ -9,7 +10,10 @@ export default async function FarmerLayout({
   const { tenant } = await requireFarmer();
   return (
     <>
-      <SiteHeader title={tenant.name} homeHref="/farm" />
+      <div className="print:hidden">
+        <SiteHeader title={tenant.name} homeHref="/farm" />
+      </div>
+      <FarmNav />
       {children}
     </>
   );
