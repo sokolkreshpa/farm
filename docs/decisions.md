@@ -1,0 +1,35 @@
+# Decisions Log
+
+Clarifications and amendments to [spec.md](spec.md). **Where this file and the spec differ, this file wins.**
+Add new decisions at the bottom with a date; never silently rewrite old ones (mark them superseded instead).
+
+---
+
+## Product decisions (confirmed by product owner, 2026-10-02)
+
+| ID | Decision |
+|---|---|
+| D-01 | **UI languages: Albanian (`sq`, default) and English (`en`).** Use `next-intl` from day one. No hard-coded user-facing strings in components. Product names/descriptions entered by the farmer are single-language (not translated) in the MVP. |
+| D-02 | **Inventory enforcement is ON.** Ordering may not exceed `available_quantity`. Stock is reserved atomically inside a Postgres function (row lock), never by read-then-write in application code. Implemented as a per-tenant setting (`tenants.enforce_inventory`, default `true`) so it can be relaxed later. |
+| D-03 | **Customers cannot edit or cancel an order after placing it.** Only the farmer can change status (including `CANCELLED`). Cancelling releases the reserved stock. The UI tells customers to contact the farmer for changes (show farm phone). |
+| D-04 | **Authentication: email + password** (Supabase Auth). Email confirmation enabled; password reset flow required. No magic link / phone OTP in the MVP. |
+
+## Model decisions (proposed by Claude, accepted with restructure, 2026-10-02)
+
+| ID | Decision |
+|---|---|
+| D-10 | Role names: `CUSTOMER`, `FARMER`, `PLATFORM_ADMIN` (spec §6 previously said `ADMIN`). |
+| D-11 | Identity model: `profiles` (1:1 with `auth.users`, holds global `role` and name/phone) + `tenant_members` (farmer ↔ tenant) + `customers` (profile ↔ tenant, per-farm customer record). This replaces `users.tenant_id` and the undefined `farmers` table, and lets a customer later order from several farmers without schema changes. A customer joins a tenant by registering from `/f/[slug]`. |
+| D-12 | Weekly availability is split into **`weekly_cycles`** (tenant, `week_start`, `week_end`, `order_deadline`, `status` = `DRAFT`/`PUBLISHED`/`CLOSED`) and **`availability_items`** (cycle, product, `price`, `available_quantity`, `reserved_quantity`, `minimum_quantity`, `maximum_quantity`). Publishing and deadline are per cycle, not per product row. "Copy last week" clones a cycle. Orders reference `cycle_id`. |
+| D-13 | Order statuses: `PLACED`, `CONFIRMED`, `PREPARING`, `READY`, `DELIVERED`, `CANCELLED`. **`DRAFT` is dropped** — the cart lives client-side until submission. |
+| D-14 | `orders` additionally has `cycle_id`, `delivery_method` (`DELIVERY`/`PICKUP`), `delivery_notes`, and snapshots of `customer_name`, `customer_phone`, `delivery_address`. |
+| D-15 | `order_items` additionally has `tenant_id` (simpler RLS) and `availability_item_id`, alongside the name/unit/price snapshots. |
+| D-16 | `addresses`: `id, tenant_id, customer_id, label, address_line, city, notes, is_default, timestamps`. |
+| D-17 | Money: stored as `numeric(12,2)` with `tenants.currency` (default `ALL`); displayed without decimals for ALL. Quantities: `numeric(10,3)`; each unit has a `step` (e.g. kg 0.5, piece 1). Units live in a `units` reference table, not hard-coded in the frontend. |
+| D-18 | Time: every tenant has a `timezone` (default `Europe/Tirane`); week boundaries and deadlines are evaluated in that zone. |
+| D-19 | Delivery fee: flat `tenants.delivery_fee`; pickup is free. Payment: **cash on delivery/pickup only** in the MVP — no payment provider. |
+| D-20 | Order numbers: sequential per tenant, starting at 1001. |
+| D-21 | Order placement goes through a single `place_order()` Postgres function (SECURITY DEFINER, validates caller, cycle published, deadline not passed, product availability, min/max, stock; snapshots prices; computes totals) — the only write path for orders. |
+| D-22 | Email provider: **Resend**, behind a `NotificationChannel` interface. Notifications are sent after the DB transaction commits; a send failure never fails the order. |
+| D-23 | Privacy (GDPR / Albanian Law 124/2024): Supabase project in an EU region, Vercel functions in `fra1`, privacy notice + consent checkbox at registration, customer can request account/data deletion. Minimise personal data collected. |
+| D-24 | Package manager: **npm**. |
