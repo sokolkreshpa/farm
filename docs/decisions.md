@@ -65,3 +65,12 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-44** — The seed creates orders through `place_order()` / `set_order_status()` (impersonating users via `request.jwt.claims`), so `db reset` also exercises the business rules.
 - **D-45** — Errors from DB functions use `errcode P0001` with a stable code in MESSAGE and context in DETAIL (e.g. `INSUFFICIENT_STOCK` / `<item id>:<remaining>`).
 - **D-46** — `profiles.last_name` may be empty (invited farmers or sign-ups without a last name); `first_name` falls back to the e-mail local part.
+
+## Auth decisions (Phase 3, 2026-10-03)
+
+- **D-47** — Supabase **publishable / secret API keys** (`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`) instead of the legacy anon / service-role keys.
+- **D-48** — Session identity is read with `supabase.auth.getClaims()` (verified JWT), never `getSession()`. `getViewer()` (React `cache`) loads the profile; `requireFarmer()` resolves the farm from `tenant_members` only.
+- **D-49** — Auth e-mails use the `token_hash` flow through `GET /api/auth/confirm` with a same-origin `next` (open-redirect safe). Templates are bilingual, selected by `{{ .Data.preferred_locale }}`.
+- **D-50** — Sign-up answers identically whether or not the e-mail already exists (no account enumeration); password-reset always reports success.
+- **D-51** — Server-action form errors are translation keys (`ErrorKey`); unknown codes fall back to `generic`. Actions return non-secret submitted values so forms refill after React 19's automatic form reset.
+- **D-52** — The privacy notice (`/privacy`) is a **draft pending legal review**. It promises account deletion from "My account" — to be built in Phase 4.

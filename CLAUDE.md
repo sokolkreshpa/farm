@@ -24,7 +24,7 @@ npm run typecheck      # next typegen && tsc --noEmit
 npm run lint           # eslint
 npm run format         # prettier --write .
 npm test               # Vitest unit tests (tests/unit)
-npm run test:e2e       # Playwright (tests/e2e); CI=1 runs against `npm run start` — build first
+npm run test:e2e       # Playwright (tests/e2e), needs `npm run db:start`; CI=1 uses `npm run start` — build first
 npm run build
 npm run db:start       # local Supabase in Docker (prints local keys for .env.local)
 npm run db:reset       # re-apply migrations + seed
@@ -45,6 +45,12 @@ npm run db:types       # regenerate types/database.ts from the local schema
 
 `npm run db:reset` seeds two farms (`ferma-kodra` = main demo, `ferma-fusha` = isolation tests), an open week + a closed week with orders.
 Logins (password `Password123`): `admin@example.com`, `farmer.a@example.com`, `farmer.b@example.com`, customers `ana@`, `bledi@`, `drita@`, `erion@`, `fatjona@`, `gent@example.com`. Emails sent locally appear in Mailpit (http://127.0.0.1:54324).
+
+## Auth / authorization in code
+
+- Server Components / Actions get identity from `lib/dal/session.ts`: `getViewer()`, `requireViewer(next)`, `requireFarmer()` (returns `{ viewer, tenant }`), `requirePlatformAdmin()`. **Every** farmer/admin page and server action calls the matching `require*()` itself — layouts are not enough.
+- `lib/supabase/server.ts` = user client (RLS). `lib/supabase/admin.ts` = secret key, bypasses RLS: only after `requirePlatformAdmin()` or in the notification sender.
+- Redirect targets from input go through `safeNextPath()` / `safeRedirectTarget()`.
 
 ## Layout
 
@@ -102,7 +108,7 @@ tests/unit/  tests/e2e/
 | 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done                       |
 | 1 — Architecture docs (review gate)                     | done (approved 2026-10-02) |
 | 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                       |
-| 3 — Auth & role-based access                            | not started                |
+| 3 — Auth & role-based access                            | done                       |
 | 4 — Customer MVP                                        | not started                |
 | 5 — Farmer MVP (+ minimal admin)                        | not started                |
 | 6 — Notifications                                       | not started                |
