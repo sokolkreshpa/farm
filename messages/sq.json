@@ -4,14 +4,139 @@
     "description": "Produkte të freskëta lokale, të porositura çdo javë direkt nga fermeri."
   },
   "Home": {
-    "headline": "Produktet e freskëta të kësaj jave",
-    "subheadline": "Porosit direkt nga fermeri yt lokal. Shpejt dhe thjesht.",
-    "comingSoon": "Së shpejti"
+    "headline": "Produkte të freskëta, direkt nga ferma",
+    "subheadline": "Porosit çdo javë nga fermeri yt lokal. Shpejt dhe thjesht.",
+    "noFarm": "Hapni lidhjen që ju ka dërguar ferma juaj për të parë produktet e kësaj jave."
+  },
+  "Nav": {
+    "login": "Hyr",
+    "logout": "Dil",
+    "register": "Regjistrohu",
+    "myOrders": "Porositë e mia",
+    "myAccount": "Llogaria ime",
+    "farmDashboard": "Paneli i fermës",
+    "admin": "Administrimi",
+    "menu": "Menyja",
+    "home": "Kryefaqja"
   },
   "LocaleSwitcher": {
     "label": "Gjuha",
     "sq": "Shqip",
     "en": "English"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Fjalëkalimi",
+    "firstName": "Emri",
+    "lastName": "Mbiemri",
+    "phone": "Telefoni",
+    "phoneHint": "Fermeri do t'ju telefonojë vetëm për porosinë.",
+    "passwordHint": "Të paktën 8 karaktere, me shkronja dhe numra.",
+    "login": {
+      "title": "Hyr në llogari",
+      "subtitle": "Mirë se u ktheve!",
+      "submit": "Hyr",
+      "forgot": "Keni harruar fjalëkalimin?",
+      "noAccount": "Nuk keni llogari?",
+      "registerLink": "Regjistrohu",
+      "linkError": "Lidhja nuk është më e vlefshme. Provoni përsëri."
+    },
+    "register": {
+      "title": "Krijo llogari",
+      "subtitle": "Duhet vetëm një herë. Herës tjetër porosit me dy klikime.",
+      "submit": "Krijo llogarinë",
+      "privacy": "Pranoj <link>politikën e privatësisë</link>",
+      "haveAccount": "Keni llogari?",
+      "loginLink": "Hyr",
+      "checkEmailTitle": "Kontrolloni email-in",
+      "checkEmailBody": "Ju dërguam një lidhje konfirmimi në {email}. Klikoni lidhjen për të vazhduar me porosinë."
+    },
+    "forgot": {
+      "title": "Keni harruar fjalëkalimin?",
+      "subtitle": "Shkruani email-in dhe do t'ju dërgojmë një lidhje për të zgjedhur një fjalëkalim të ri.",
+      "submit": "Dërgo lidhjen",
+      "sentTitle": "Kontrolloni email-in",
+      "sentBody": "Nëse ky email ka një llogari, do të merrni një lidhje brenda pak minutash.",
+      "backToLogin": "Kthehu te hyrja"
+    },
+    "reset": {
+      "title": "Zgjidh fjalëkalim të ri",
+      "newPassword": "Fjalëkalimi i ri",
+      "confirmPassword": "Përsërit fjalëkalimin",
+      "submit": "Ruaj fjalëkalimin",
+      "doneTitle": "Fjalëkalimi u ruajt",
+      "doneBody": "Tani mund të vazhdoni.",
+      "continue": "Vazhdo",
+      "expiredTitle": "Lidhja ka skaduar",
+      "expiredBody": "Kërkoni një lidhje të re për të ndryshuar fjalëkalimin.",
+      "requestNew": "Kërko lidhje të re"
+    }
+  },
+  "Errors": {
+    "required": "Kjo fushë është e detyrueshme.",
+    "tooLong": "Teksti është shumë i gjatë.",
+    "emailInvalid": "Shkruani një email të vlefshëm.",
+    "phoneInvalid": "Shkruani një numër telefoni të vlefshëm.",
+    "passwordTooShort": "Fjalëkalimi duhet të ketë të paktën 8 karaktere.",
+    "passwordTooLong": "Fjalëkalimi është shumë i gjatë.",
+    "passwordNeedsLetter": "Fjalëkalimi duhet të ketë të paktën një shkronjë.",
+    "passwordNeedsDigit": "Fjalëkalimi duhet të ketë të paktën një numër.",
+    "passwordTooWeak": "Ky fjalëkalim është shumë i dobët. Zgjidhni një tjetër.",
+    "passwordsDontMatch": "Fjalëkalimet nuk përputhen.",
+    "passwordSameAsOld": "Zgjidhni një fjalëkalim të ndryshëm nga i vjetri.",
+    "privacyRequired": "Duhet të pranoni politikën e privatësisë.",
+    "invalidCredentials": "Email-i ose fjalëkalimi është i gabuar.",
+    "emailNotConfirmed": "Konfirmoni email-in tuaj. Kontrolloni kutinë postare.",
+    "rateLimited": "Shumë përpjekje. Provoni përsëri pas pak minutash.",
+    "resetLinkExpired": "Lidhja ka skaduar. Kërkoni një të re.",
+    "generic": "Diçka shkoi keq. Provoni përsëri."
+  },
+  "Farm": {
+    "comingSoon": "Produktet e kësaj jave shfaqen këtu së shpejti."
+  },
+  "Account": {
+    "title": "Llogaria ime",
+    "greeting": "Përshëndetje, {name}!",
+    "comingSoon": "Porositë dhe adresat tuaja do të shfaqen këtu."
+  },
+  "FarmerArea": {
+    "title": "Paneli i fermës",
+    "comingSoon": "Paneli i fermës po ndërtohet."
+  },
+  "AdminArea": {
+    "title": "Administrimi",
+    "comingSoon": "Paneli i administrimit po ndërtohet."
+  },
+  "Privacy": {
+    "title": "Politika e privatësisë",
+    "draftNotice": "Draft: ky tekst duhet rishikuar nga një jurist përpara publikimit.",
+    "intro": "Kjo faqe shpjegon cilat të dhëna personale mbledhim kur porositni nga një fermë në këtë platformë, pse i mbledhim dhe cilat janë të drejtat tuaja sipas Ligjit nr. 124/2024 \"Për mbrojtjen e të dhënave personale\" dhe Rregullores së Përgjithshme të BE-së për Mbrojtjen e të Dhënave (GDPR).",
+    "sections": {
+      "who": {
+        "title": "Kush i përpunon të dhënat",
+        "body": "Ferma nga e cila porositni është përgjegjëse për të dhënat e porosive tuaja. Platforma i ruan dhe i përpunon këto të dhëna në emër të fermës."
+      },
+      "data": {
+        "title": "Çfarë të dhënash mbledhim",
+        "body": "Emrin, mbiemrin, email-in, numrin e telefonit, adresat e dorëzimit që ruani, porositë tuaja (produktet, sasitë, çmimet) dhe shënimet që shkruani për fermerin."
+      },
+      "why": {
+        "title": "Pse i përdorim",
+        "body": "Për të përgatitur dhe dorëzuar porositë tuaja, për t'ju kontaktuar për porosinë dhe për t'ju dërguar njoftime për statusin e saj. Baza ligjore është përmbushja e kontratës (porosisë) me ju."
+      },
+      "share": {
+        "title": "Me kë i ndajmë",
+        "body": "Vetëm me fermën nga e cila porositni dhe me ofruesit tanë teknikë (pritja e të dhënave dhe dërgimi i email-eve), me serverë brenda Bashkimit Evropian. Nuk i shesim të dhënat tuaja."
+      },
+      "keep": {
+        "title": "Sa kohë i ruajmë",
+        "body": "Për sa kohë keni llogari. Porositë mund të ruhen më gjatë, në formë anonime, për detyrimet kontabël të fermës."
+      },
+      "rights": {
+        "title": "Të drejtat tuaja",
+        "body": "Keni të drejtë të kërkoni qasje, korrigjim ose fshirje të të dhënave tuaja dhe të kundërshtoni përpunimin. Mund ta fshini llogarinë nga faqja \"Llogaria ime\" ose të na kontaktoni. Keni gjithashtu të drejtë të ankoheni te Komisioneri për të Drejtën e Informimit dhe Mbrojtjen e të Dhënave Personale."
+      }
+    }
   },
   "NotFound": {
     "title": "Faqja nuk u gjet",

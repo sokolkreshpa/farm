@@ -4,14 +4,139 @@
     "description": "Fresh local produce, ordered weekly straight from the farmer."
   },
   "Home": {
-    "headline": "This week's fresh products",
-    "subheadline": "Order directly from your local farmer. Quick and simple.",
-    "comingSoon": "Coming soon"
+    "headline": "Fresh produce, straight from the farm",
+    "subheadline": "Order every week from your local farmer. Quick and simple.",
+    "noFarm": "Open the link your farm sent you to see this week's products."
+  },
+  "Nav": {
+    "login": "Log in",
+    "logout": "Log out",
+    "register": "Sign up",
+    "myOrders": "My orders",
+    "myAccount": "My account",
+    "farmDashboard": "Farm dashboard",
+    "admin": "Admin",
+    "menu": "Menu",
+    "home": "Home"
   },
   "LocaleSwitcher": {
     "label": "Language",
     "sq": "Shqip",
     "en": "English"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "phoneHint": "The farmer will only call you about your order.",
+    "passwordHint": "At least 8 characters, with letters and numbers.",
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back!",
+      "submit": "Log in",
+      "forgot": "Forgot your password?",
+      "noAccount": "No account yet?",
+      "registerLink": "Sign up",
+      "linkError": "That link is no longer valid. Please try again."
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "You only do this once. Next time you order in two taps.",
+      "submit": "Create account",
+      "privacy": "I accept the <link>privacy policy</link>",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "checkEmailTitle": "Check your email",
+      "checkEmailBody": "We sent a confirmation link to {email}. Click it to continue with your order."
+    },
+    "forgot": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a link to choose a new password.",
+      "submit": "Send link",
+      "sentTitle": "Check your email",
+      "sentBody": "If this email has an account, you'll receive a link within a few minutes.",
+      "backToLogin": "Back to log in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "newPassword": "New password",
+      "confirmPassword": "Repeat password",
+      "submit": "Save password",
+      "doneTitle": "Password saved",
+      "doneBody": "You can continue now.",
+      "continue": "Continue",
+      "expiredTitle": "The link has expired",
+      "expiredBody": "Request a new link to change your password.",
+      "requestNew": "Request a new link"
+    }
+  },
+  "Errors": {
+    "required": "This field is required.",
+    "tooLong": "This text is too long.",
+    "emailInvalid": "Enter a valid email address.",
+    "phoneInvalid": "Enter a valid phone number.",
+    "passwordTooShort": "Password must be at least 8 characters.",
+    "passwordTooLong": "Password is too long.",
+    "passwordNeedsLetter": "Password must contain at least one letter.",
+    "passwordNeedsDigit": "Password must contain at least one number.",
+    "passwordTooWeak": "This password is too weak. Choose another one.",
+    "passwordsDontMatch": "Passwords don't match.",
+    "passwordSameAsOld": "Choose a password different from your old one.",
+    "privacyRequired": "You need to accept the privacy policy.",
+    "invalidCredentials": "Wrong email or password.",
+    "emailNotConfirmed": "Please confirm your email first. Check your inbox.",
+    "rateLimited": "Too many attempts. Try again in a few minutes.",
+    "resetLinkExpired": "The link has expired. Request a new one.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "Farm": {
+    "comingSoon": "This week's products will appear here soon."
+  },
+  "Account": {
+    "title": "My account",
+    "greeting": "Hello, {name}!",
+    "comingSoon": "Your orders and addresses will appear here."
+  },
+  "FarmerArea": {
+    "title": "Farm dashboard",
+    "comingSoon": "The farm dashboard is being built."
+  },
+  "AdminArea": {
+    "title": "Admin",
+    "comingSoon": "The admin panel is being built."
+  },
+  "Privacy": {
+    "title": "Privacy policy",
+    "draftNotice": "Draft: this text must be reviewed by a lawyer before launch.",
+    "intro": "This page explains which personal data we collect when you order from a farm on this platform, why we collect it, and your rights under Albanian Law No. 124/2024 \"On personal data protection\" and the EU General Data Protection Regulation (GDPR).",
+    "sections": {
+      "who": {
+        "title": "Who processes your data",
+        "body": "The farm you order from is responsible for your order data. The platform stores and processes this data on the farm's behalf."
+      },
+      "data": {
+        "title": "What data we collect",
+        "body": "Your first and last name, email, phone number, the delivery addresses you save, your orders (products, quantities, prices) and the notes you write to the farmer."
+      },
+      "why": {
+        "title": "Why we use it",
+        "body": "To prepare and deliver your orders, to contact you about your order and to send you notifications about its status. The legal basis is the performance of the contract (your order) with you."
+      },
+      "share": {
+        "title": "Who we share it with",
+        "body": "Only with the farm you order from and with our technical providers (data hosting and email delivery), on servers inside the European Union. We never sell your data."
+      },
+      "keep": {
+        "title": "How long we keep it",
+        "body": "For as long as you have an account. Orders may be kept longer, in anonymised form, for the farm's accounting obligations."
+      },
+      "rights": {
+        "title": "Your rights",
+        "body": "You can request access to, correction or deletion of your data, and object to its processing. You can delete your account from the \"My account\" page or contact us. You also have the right to complain to the Albanian Information and Data Protection Commissioner."
+      }
+    }
   },
   "NotFound": {
     "title": "Page not found",

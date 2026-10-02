@@ -1,20 +1,29 @@
-import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
-import { use } from "react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { SiteHeader } from "@/components/site-header";
+import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { serverEnv } from "@/lib/env.server";
 
-export default function HomePage({ params }: PageProps<"/[locale]">) {
-  const { locale } = use(params) as { locale: Locale };
+export default async function HomePage({ params }: PageProps<"/[locale]">) {
+  const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
-  const t = useTranslations("Home");
+
+  // Single-farm deployment: "/" goes straight to the farm (D-42).
+  const defaultSlug = serverEnv().DEFAULT_TENANT_SLUG;
+  if (defaultSlug) redirect({ href: `/f/${defaultSlug}`, locale });
+
+  const t = await getTranslations("Home");
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-4 px-6 py-16">
-      <h1 className="font-heading text-4xl font-semibold tracking-tight text-balance">
-        {t("headline")}
-      </h1>
-      <p className="text-lg text-muted-foreground">{t("subheadline")}</p>
-      <p className="text-sm font-medium text-primary">{t("comingSoon")}</p>
-    </main>
+    <>
+      <SiteHeader />
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-4 px-6 py-16">
+        <h1 className="font-heading text-4xl font-semibold tracking-tight text-balance">
+          {t("headline")}
+        </h1>
+        <p className="text-lg text-muted-foreground">{t("subheadline")}</p>
+        <p className="text-muted-foreground">{t("noFarm")}</p>
+      </main>
+    </>
   );
 }
