@@ -84,3 +84,13 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-57** — Checkout keeps its idempotency key in `sessionStorage` per farm + week until the order succeeds, so retries and reloads never create duplicates.
 - **D-58** — Anonymous visitors who press "Continue to order" go to sign-up (with `farm` and `next`), then return to checkout with the cart intact.
 - **D-59** — Product placeholders (no photo yet) are coloured tiles with the product's initial; photos are uploaded by the farmer in Phase 5.
+
+## Farmer MVP decisions (Phase 5, 2026-10-03)
+
+- **D-60** — `/farm/week` opens the week that needs attention (upcoming draft → open published week → "Prepare week X" with **Copy last week** as the primary action). The next week to prepare is the week after the latest one, never a week that already started.
+- **D-61** — Week editor fields **save on blur** (`updateWeekItem`), one row per product; min/max are tucked under "More". Deadlines are entered as local time and converted with `lib/farm/weeks.ts` (DST-safe, no date library).
+- **D-62** — Totals ("how much to prepare") are aggregated in a pure, unit-tested function (`aggregateTotals`) so they can be filtered by status ("only not yet prepared"); the SQL view stays available for reporting.
+- **D-63** — Order status UI: one big "next step" button, optional jump-ahead buttons, cancel with an optional reason; bulk confirm/deliver on the order list.
+- **D-64** — Product photos ≤ 4 MB are uploaded through a Server Action (`bodySizeLimit: 4.5mb`, Vercel's request limit) into `product-images/{tenant_id}/…`; storage RLS enforces the folder.
+- **D-65** — Platform admin creates a farm with the secret key: insert tenant → invite farmer (or reuse an existing account) → role FARMER + membership; the tenant insert is rolled back if the invite fails.
+- **D-66** — E2E tests expect a freshly seeded DB (`npm run test:e2e:fresh`); state-changing farmer tests run on farm B, desktop project only, serially.

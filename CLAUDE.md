@@ -25,6 +25,7 @@ npm run lint           # eslint
 npm run format         # prettier --write .
 npm test               # Vitest unit tests (tests/unit)
 npm run test:e2e       # Playwright (tests/e2e), needs `npm run db:start`; CI=1 uses `npm run start` — build first
+npm run test:e2e:fresh # db reset + all e2e (farmer specs expect fresh seed data)
 npm run build
 npm run db:start       # local Supabase in Docker (prints local keys for .env.local)
 npm run db:reset       # re-apply migrations + seed
@@ -111,7 +112,7 @@ tests/unit/  tests/e2e/
 | 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                       |
 | 3 — Auth & role-based access                            | done                       |
 | 4 — Customer MVP                                        | done                       |
-| 5 — Farmer MVP (+ minimal admin)                        | not started                |
+| 5 — Farmer MVP (+ minimal admin)                        | done                       |
 | 6 — Notifications                                       | not started                |
 | 7 — Testing (unit + e2e)                                | not started                |
 | 8 — Deployment (Vercel + Supabase prod)                 | not started                |
