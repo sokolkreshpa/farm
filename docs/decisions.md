@@ -40,3 +40,21 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-26** — Next.js **16** (scaffolded 16.3). Request interception lives in `proxy.ts` (Next 16 renamed `middleware` → `proxy`); request APIs (`params`, `cookies()`, `headers()`) are async only. Proxy is used for locale routing and Supabase session refresh only — never as the authorization layer.
 - **D-27** — shadcn/ui on the Radix base (`radix-nova` style), Tailwind v4 CSS-first config in `app/globals.css`. Fonts: Fraunces (headings) + Inter (body), both with `latin-ext` for Albanian characters (ë, ç). Light theme only for the MVP.
 - **D-28** — `docs/spec.md` is excluded from Prettier so the product owner's original text stays as written.
+
+## Architecture decisions (Phase 1, 2026-10-02 — pending product-owner review)
+
+- **D-16 superseded by D-29.**
+- **D-29** — Addresses belong to the **profile**, not to a tenant. They are private to the customer; the farmer sees the address snapshotted on each order. One address book works across farms.
+- **D-30** — `profiles.id` is `auth.users.id` (no separate `auth_user_id`). `profiles.email` is mirrored from `auth.users` by trigger so farmers can contact customers.
+- **D-31** — **Composite tenant foreign keys** (`(tenant_id, x_id) → x(tenant_id, id)`) on every tenant-owned child table, so a cross-tenant reference cannot exist at the database level.
+- **D-32** — **Column-level grants** complement RLS: RLS picks rows, grants pick columns (e.g. no client can write `ordered_quantity`, `next_order_number`, `profiles.role`, `tenants.active`).
+- **D-33** — Orders and order status are written **only** through `place_order()` / `set_order_status()`; `authenticated` has no insert/update on `orders` or `order_items`.
+- **D-34** — At most one PUBLISHED week per farm (partial unique index). Publishing a new week closes the previous one. Ordering is open while `status = PUBLISHED and now() < order_deadline`, so no cron job is needed to close weeks.
+- **D-35** — `place_order()` takes an **idempotency key** (unique per customer) to stop duplicate orders from double taps or retries.
+- **D-36** — Customers may place **several orders per week** (they cannot edit an order, D-03, so a second order is how they add something).
+- **D-37** — Anonymous visitors can browse the farm page and this week's products; login is required only at checkout.
+- **D-38** — Farmers never self-register: a platform admin creates the farm and invites the farmer by email.
+- **D-39** — Notifications use an **outbox table** written in the same transaction, sent via `after()`, retried by Vercel Cron.
+- **D-40** — Order status may jump forward (e.g. PLACED → READY); DELIVERED and CANCELLED are final; cancelling releases stock.
+- **D-41** — Product images stored as Storage paths (`{tenant_id}/{uuid}.ext`) in a public-read bucket; only tenant members can write their folder.
+- **D-42** — Optional env `DEFAULT_TENANT_SLUG` redirects `/` to the single farm for the first deployment.

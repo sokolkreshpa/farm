@@ -89,14 +89,14 @@ tests/unit/  tests/e2e/
 
 ## Phase tracker
 
-| Phase                                                   | Status      |
-| ------------------------------------------------------- | ----------- |
-| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done        |
-| 1 — Architecture docs (review gate)                     | in progress |
-| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | not started |
-| 3 — Auth & role-based access                            | not started |
-| 4 — Customer MVP                                        | not started |
-| 5 — Farmer MVP (+ minimal admin)                        | not started |
-| 6 — Notifications                                       | not started |
-| 7 — Testing (unit + e2e)                                | not started |
-| 8 — Deployment (Vercel + Supabase prod)                 | not started |
+| Phase                                                   | Status          |
+| ------------------------------------------------------- | --------------- |
+| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done            |
+| 1 — Architecture docs (review gate)                     | awaiting review |
+| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | not started     |
+| 3 — Auth & role-based access                            | not started     |
+| 4 — Customer MVP                                        | not started     |
+| 5 — Farmer MVP (+ minimal admin)                        | not started     |
+| 6 — Notifications                                       | not started     |
+| 7 — Testing (unit + e2e)                                | not started     |
+| 8 — Deployment (Vercel + Supabase prod)                 | not started     |
