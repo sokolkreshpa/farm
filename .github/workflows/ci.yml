@@ -30,5 +30,21 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder
           NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
-  # Database (pgTAP RLS tests) and e2e jobs are added in Phases 2 and 7,
-  # running against a local Supabase stack started with the Supabase CLI.
+  database:
+    name: Migrations, seed, RLS / tenant-isolation tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.119.0
+      - name: Start Postgres, apply migrations and seed
+        run: supabase db start
+      - name: pgTAP tests
+        run: supabase test db
+      - name: Generated types are up to date
+        run: |
+          supabase gen types typescript --local > /tmp/database.ts
+          diff -u types/database.ts /tmp/database.ts
+
+  # The e2e job (Playwright against local Supabase) is added in Phase 7.

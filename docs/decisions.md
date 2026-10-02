@@ -58,3 +58,10 @@ Add new decisions at the bottom with a date; never silently rewrite old ones (ma
 - **D-40** — Order status may jump forward (e.g. PLACED → READY); DELIVERED and CANCELLED are final; cancelling releases stock.
 - **D-41** — Product images stored as Storage paths (`{tenant_id}/{uuid}.ext`) in a public-read bucket; only tenant members can write their folder.
 - **D-42** — Optional env `DEFAULT_TENANT_SLUG` redirects `/` to the single farm for the first deployment.
+
+## Database decisions (Phase 2, 2026-10-03)
+
+- **D-43** — Default privileges on schema `public` are revoked for `anon`/`authenticated`; every table and function is granted explicitly (see CLAUDE.md rules).
+- **D-44** — The seed creates orders through `place_order()` / `set_order_status()` (impersonating users via `request.jwt.claims`), so `db reset` also exercises the business rules.
+- **D-45** — Errors from DB functions use `errcode P0001` with a stable code in MESSAGE and context in DETAIL (e.g. `INSUFFICIENT_STOCK` / `<item id>:<remaining>`).
+- **D-46** — `profiles.last_name` may be empty (invited farmers or sign-ups without a last name); `first_name` falls back to the e-mail local part.

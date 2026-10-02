@@ -41,6 +41,11 @@ npm run db:types       # regenerate types/database.ts from the local schema
 - Version-matched docs: `node_modules/next/dist/docs/` (e.g. `01-app/02-guides/authentication.md`, `data-security.md`, `multi-tenant.md`).
 - i18n: import `Link`, `redirect`, `useRouter` from `@/i18n/navigation`, not from `next/*`. Server components call `setRequestLocale(locale)`.
 
+## Local data
+
+`npm run db:reset` seeds two farms (`ferma-kodra` = main demo, `ferma-fusha` = isolation tests), an open week + a closed week with orders.
+Logins (password `Password123`): `admin@example.com`, `farmer.a@example.com`, `farmer.b@example.com`, customers `ana@`, `bledi@`, `drita@`, `erion@`, `fatjona@`, `gent@example.com`. Emails sent locally appear in Mailpit (http://127.0.0.1:54324).
+
 ## Layout
 
 ```text
@@ -66,6 +71,9 @@ tests/unit/  tests/e2e/
 - Validate all external input with Zod.
 - Schema changes only via new migration files; never edit an applied migration.
 - Tenant-isolation tests (Farmer A ≠ Farmer B products/orders; Customer A ≠ Customer B orders) must stay green.
+- **New tables get no privileges by default** (default privileges are revoked for `anon`/`authenticated`). Every new table needs: `enable row level security`, explicit `grant`s (column lists for insert/update), policies, and pgTAP tests.
+- New business functions: `security definer`, `set search_path = ''`, re-check the caller (`private.is_tenant_member` etc.), `revoke ... from public, anon`, raise stable error codes in MESSAGE (e.g. `CYCLE_CLOSED`) and add the code to the UI translations.
+- After any migration: `npm run db:reset && npm run db:test && npm run db:types` (CI fails if `types/database.ts` is stale).
 
 **Code**
 
@@ -89,14 +97,14 @@ tests/unit/  tests/e2e/
 
 ## Phase tracker
 
-| Phase                                                   | Status          |
-| ------------------------------------------------------- | --------------- |
-| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done            |
-| 1 — Architecture docs (review gate)                     | awaiting review |
-| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | not started     |
-| 3 — Auth & role-based access                            | not started     |
-| 4 — Customer MVP                                        | not started     |
-| 5 — Farmer MVP (+ minimal admin)                        | not started     |
-| 6 — Notifications                                       | not started     |
-| 7 — Testing (unit + e2e)                                | not started     |
-| 8 — Deployment (Vercel + Supabase prod)                 | not started     |
+| Phase                                                   | Status                     |
+| ------------------------------------------------------- | -------------------------- |
+| 0 — Scaffold (Next.js, tooling, Supabase init, CI)      | done                       |
+| 1 — Architecture docs (review gate)                     | done (approved 2026-10-02) |
+| 2 — Database: schema, RLS, `place_order()`, seed, pgTAP | done                       |
+| 3 — Auth & role-based access                            | not started                |
+| 4 — Customer MVP                                        | not started                |
+| 5 — Farmer MVP (+ minimal admin)                        | not started                |
+| 6 — Notifications                                       | not started                |
+| 7 — Testing (unit + e2e)                                | not started                |
+| 8 — Deployment (Vercel + Supabase prod)                 | not started                |
