@@ -219,13 +219,13 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "created_at": string,"email": string,"first_name": string,"id": string,"last_name": string,"phone": string | null,"preferred_locale": string,"privacy_accepted_at": string | null,"role": Database["public"]['Enums']["app_role"],"updated_at": string
+                    "created_at": string,"deletion_requested_at": string | null,"email": string,"first_name": string,"id": string,"last_name": string,"phone": string | null,"preferred_locale": string,"privacy_accepted_at": string | null,"role": Database["public"]['Enums']["app_role"],"updated_at": string
                   }
                   Insert: {
-                    "created_at"?: string,"email": string,"first_name": string,"id": string,"last_name"?: string,"phone"?: string | null,"preferred_locale"?: string,"privacy_accepted_at"?: string | null,"role"?: Database["public"]['Enums']["app_role"],"updated_at"?: string
+                    "created_at"?: string,"deletion_requested_at"?: string | null,"email": string,"first_name": string,"id": string,"last_name"?: string,"phone"?: string | null,"preferred_locale"?: string,"privacy_accepted_at"?: string | null,"role"?: Database["public"]['Enums']["app_role"],"updated_at"?: string
                   }
                   Update: {
-                    "created_at"?: string,"email"?: string,"first_name"?: string,"id"?: string,"last_name"?: string,"phone"?: string | null,"preferred_locale"?: string,"privacy_accepted_at"?: string | null,"role"?: Database["public"]['Enums']["app_role"],"updated_at"?: string
+                    "created_at"?: string,"deletion_requested_at"?: string | null,"email"?: string,"first_name"?: string,"id"?: string,"last_name"?: string,"phone"?: string | null,"preferred_locale"?: string,"privacy_accepted_at"?: string | null,"role"?: Database["public"]['Enums']["app_role"],"updated_at"?: string
                   }
                   Relationships: [
                     
