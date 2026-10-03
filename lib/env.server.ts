@@ -17,7 +17,10 @@ let cached: z.infer<typeof serverSchema> | undefined;
 // Parsed lazily so builds that never touch server secrets don't require them.
 export function serverEnv() {
   cached ??= serverSchema.parse({
-    SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY || undefined,
+    SUPABASE_SECRET_KEY:
+      process.env.SUPABASE_SECRET_KEY ||
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      undefined,
     DEFAULT_TENANT_SLUG: process.env.DEFAULT_TENANT_SLUG || undefined,
     CRON_SECRET: process.env.CRON_SECRET || undefined,
     RESEND_API_KEY: process.env.RESEND_API_KEY || undefined,

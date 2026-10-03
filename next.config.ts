@@ -3,9 +3,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL)
-  : null;
+const supabaseUrlValue =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseUrl = supabaseUrlValue ? new URL(supabaseUrlValue) : null;
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
