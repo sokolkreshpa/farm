@@ -89,7 +89,12 @@ The templates link to `/api/auth/confirm` (token-hash flow). Without them, confi
 | `CRON_SECRET` (**sensitive**)          | random, e.g. `openssl rand -hex 32` | different random value                               |
 | `DEFAULT_TENANT_SLUG`                  | the farm's slug (after step 6)      | `ferma-kodra` if staging was seeded                  |
 
-Do **not** set `MAILPIT_URL` on Vercel (local only). 3. Deploy. _Settings → Domains_: add your domain, then update Supabase **Site URL** (step 4) to match. 4. Cron: `vercel.json` retries undelivered e-mails daily (Hobby limit). On Pro change the schedule to `*/10 * * * *`. Vercel sends `Authorization: Bearer $CRON_SECRET` automatically.
+Do **not** set `MAILPIT_URL` on Vercel (local only).
+
+> **The build fails if the `NEXT_PUBLIC_*` values are missing** — they are baked in at build time. Add them for _both_ Production and Preview, then **Redeploy** (env changes never apply to an existing build). If you used Vercel's Supabase integration, its `SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` are accepted as fallbacks, and `NEXT_PUBLIC_SITE_URL` defaults to the Vercel production / branch URL — set it explicitly once you have a custom domain (it is used in e-mail links).
+
+3. Deploy. _Settings → Domains_: add your domain, then update Supabase **Site URL** (step 4) to match.
+4. Cron: `vercel.json` retries undelivered e-mails daily (Hobby limit). On Pro change the schedule to `*/10 * * * *`. Vercel sends `Authorization: Bearer $CRON_SECRET` automatically.
 
 **Check:** `npm run smoke -- https://<your-domain> <slug>` — the farm-page check passes once the farm exists (step 6); everything else passes immediately.
 
